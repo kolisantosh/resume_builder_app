@@ -7,7 +7,8 @@ import '../controller/common_controller.dart';
 
 class ResumeForm extends StatefulWidget {
   final ResumeModel? item;
-  ResumeForm({this.item});
+  final bool update;
+  const ResumeForm({super.key, this.item, this.update=false});
   @override
   _ResumeFormState createState() => _ResumeFormState();
 }
@@ -25,15 +26,23 @@ class _ResumeFormState extends State<ResumeForm> {
 
   @override
   void initState() {
-    setState(() {
-      _name = '';
-       _email = '';
-       _phone = '';
-       _summary = '';
-       _experience = '';
-       _education = '';
-    });
+
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if(widget.update) {
+      setState(() {
+        _name = widget.item!.name;
+        _email = widget.item!.email;
+        _phone = widget.item!.phone;
+        _summary = widget.item!.summary;
+        _experience = widget.item!.experience;
+        _education = widget.item!.education;
+      });
+    }
+    super.didChangeDependencies();
   }
 
   @override
@@ -142,13 +151,17 @@ class _ResumeFormState extends State<ResumeForm> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-                          final data=ResumeModel(id: 1, name: _name, email: _email, phone: _phone,
-                              summary: _summary, education: _education, experience: _experience);
 
-                         if(widget.item?.id==null) {
+
+                          if(widget.update==false) {
+                            final data=ResumeModel(id: 1, name: _name, email: _email, phone: _phone,
+                               summary: _summary, education: _education, experience: _experience,creationDate: DateTime.now());
                            commonController.addResume(data);
                          }
                          else {
+                           print("++++++++++++++++");
+                           final data=ResumeModel(id: widget.item!.id, name: _name, email: _email, phone: _phone,
+                               summary: _summary, education: _education, experience: _experience,creationDate: DateTime.now());
                            commonController.updateResume(data);
                          }
                         }

@@ -7,7 +7,7 @@ class ResumeModel {
     required this.summary,
     required this.education,
     required this.experience,
-    this.creationDate,
+    required this.creationDate,
   });
 
   int id;
@@ -17,7 +17,7 @@ class ResumeModel {
   String summary;
   String education;
   String experience;
-  DateTime? creationDate;
+  DateTime creationDate;
 
   factory ResumeModel.fromJson(Map<String, dynamic> json) => ResumeModel(
     id: json["id"],
@@ -27,7 +27,7 @@ class ResumeModel {
     summary: json["summary"]??"",
     education: json["education"]??"",
     experience: json["experience"]??"",
-    creationDate: DateTime.parse(json["creationDate"])??null,
+    creationDate: DateTime.parse(json["creationDate"]),
 
   );
 
@@ -39,7 +39,7 @@ class ResumeModel {
     "summary": summary,
     "education": education,
     "experience": experience,
-    "creationDate": creationDate!.toIso8601String(),
+    "creationDate": creationDate.toIso8601String(),
   };
 
 
