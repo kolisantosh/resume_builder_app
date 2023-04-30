@@ -35,7 +35,7 @@ class CommonController extends GetxController {
             phone: item.phone,
             education: item.education,
             experience: item.experience,
-              summary: item.summary, creationDate: item.creationDate
+              summary: item.summary, creationDate: item.creationDate!
           );
         }).toList());
       }
@@ -48,6 +48,7 @@ class CommonController extends GetxController {
   addResume(ResumeModel item) async {
     try {
       isDataProcessing.value=true;
+      print("++++++++++++++++"+item.toJson().toString());
 
       var id = await db.into(db.resumes).insert(ResumesCompanion.insert(
         name: item.name, email: item.email, phone: item.phone, summary: item.summary, experience: item.experience,
@@ -56,7 +57,9 @@ class CommonController extends GetxController {
 
       print("++++++++++++++++"+id.toString());
 
-      isDataProcessing.value=false;
+      // isDataProcessing.value=false;
+
+      Get.back();
 
     }catch(e){
       debugPrint("Error=>$e");
@@ -71,7 +74,8 @@ class CommonController extends GetxController {
         name:drift.Value(item.name), email: drift.Value(item.email), phone: drift.Value(item.phone), summary: drift.Value(item.summary),
         experience: drift.Value(item.experience), education: drift.Value(item.education),
       ));
-      isDataProcessing.value=false;
+      // isDataProcessing.value=false;
+      Get.back();
 
     }catch(e){
       debugPrint("Error=>$e");

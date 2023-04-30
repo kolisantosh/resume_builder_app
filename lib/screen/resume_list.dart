@@ -28,7 +28,9 @@ class _ResumeListState extends State<ResumeList> {
                   commonController.getResumeList();
                 },
                 child: Obx(
-                      () =>commonController.isDataProcessing.value?const Center(child: CircularProgressIndicator(),): ListView.builder(
+                      () =>commonController.myList.length<=0?Center(child: Text("No Resume Yet"),):
+                      // commonController.isDataProcessing.value?const Center(child: CircularProgressIndicator(),):
+                      ListView.builder(
                       padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                       itemCount: commonController.myList.length,
                       // reverse: true,
@@ -52,7 +54,7 @@ class _ResumeListState extends State<ResumeList> {
                                       Get.to(ResumeForm());
 
                                     } else if (x == "update") {
-                                      Get.to(ResumeForm(item: item));
+                                      Get.to(ResumeForm(update:true,item: item));
 
 
                                     }else if (x == "delete") {
