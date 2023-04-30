@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:resume_builder_flutter/screen/resume_form.dart';
+import 'package:resume_builder_app/screen/resume_form.dart';
 
 void main() => runApp(MyApp());
 
