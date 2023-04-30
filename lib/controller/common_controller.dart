@@ -5,9 +5,13 @@ import 'package:get/get.dart';
 import 'package:drift/drift.dart' as drift;
 import '../local/table.dart';
 import '../main.dart';
+import '../model/resume_model.dart';
 
 class CommonController extends GetxController {
   var isDataProcessing = false.obs;
+
+  List<ResumeModel> myList =
+      List<ResumeModel>.empty(growable: true).obs;
 
   @override
   void onInit() {
@@ -19,19 +23,35 @@ class CommonController extends GetxController {
   getResumeList() async {
     try {
       isDataProcessing.value=true;
-      await db.select(db.resumes).get();
+      final data=await db.select(db.resumes).get();
+      if (data.isNotEmpty) {
+        print(data.toList());
+        print(data.toString());
+        myList.addAll(data.map((item) {
+          return ResumeModel(
+            id: item.id,
+            name: item.name,
+            email: item.email,
+            phone: item.phone,
+            education: item.education,
+            experience: item.experience,
+              summary: item.summary, creationDate: item.creationDate
+          );
+        }).toList());
+      }
       isDataProcessing.value=false;
 
     }catch(e){
       debugPrint("Error=>$e");
     }
   }
-  addResume() async {
+  addResume(ResumeModel item) async {
     try {
       isDataProcessing.value=true;
 
       var id = await db.into(db.resumes).insert(ResumesCompanion.insert(
-        name: '', email: '', phone: '', summary: '', experience: '', education: '',
+        name: item.name, email: item.email, phone: item.phone, summary: item.summary, experience: item.experience,
+        education: item.education,
       ));
 
       isDataProcessing.value=false;
@@ -40,14 +60,14 @@ class CommonController extends GetxController {
       debugPrint("Error=>$e");
     }
   }
-  updateResume(itemid) async {
+  updateResume(ResumeModel item) async {
     try {
       isDataProcessing.value=true;
       var id = await (db.update(db.resumes)
-        ..where((e) => e.id.equals(itemid)))
+        ..where((e) => e.id.equals(item.id)))
         .write(ResumesCompanion(
-        name:drift.Value(''), email: drift.Value(''), phone: drift.Value(''), summary: drift.Value(''),
-        experience: drift.Value(''), education: drift.Value(''),
+        name:drift.Value(item.name), email: drift.Value(item.email), phone: drift.Value(item.phone), summary: drift.Value(item.summary),
+        experience: drift.Value(item.experience), education: drift.Value(item.education),
       ));
       isDataProcessing.value=false;
 
@@ -55,10 +75,10 @@ class CommonController extends GetxController {
       debugPrint("Error=>$e");
     }
   }
-  deleteResume(itemid) async {
+  deleteResume(ResumeModel item) async {
     try {
       isDataProcessing.value=true;
-      await (db.delete(db.resumes)..where((t) => t.id.equals(itemid))).go();
+      await (db.delete(db.resumes)..where((t) => t.id.equals(item.id))).go();
 
       isDataProcessing.value=false;
     }catch(e){

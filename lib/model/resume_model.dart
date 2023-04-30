@@ -1,5 +1,5 @@
-class ReviewModel {
-  ReviewModel({
+class ResumeModel {
+  ResumeModel({
     required this.id,
     required this.name,
     required this.email,
@@ -7,19 +7,19 @@ class ReviewModel {
     required this.summary,
     required this.education,
     required this.experience,
-    required this.creationDate,
+    this.creationDate,
   });
 
-  String id;
+  int id;
   String name;
   String email;
   String phone;
   String summary;
   String education;
   String experience;
-  DateTime creationDate;
+  DateTime? creationDate;
 
-  factory ReviewModel.fromJson(Map<String, dynamic> json) => ReviewModel(
+  factory ResumeModel.fromJson(Map<String, dynamic> json) => ResumeModel(
     id: json["id"],
     name: json["name"]??"",
     email: json["email"]??"",
@@ -27,23 +27,28 @@ class ReviewModel {
     summary: json["summary"]??"",
     education: json["education"]??"",
     experience: json["experience"]??"",
-    creationDate: DateTime.parse(json["creationDate"]),
+    creationDate: DateTime.parse(json["creationDate"])??null,
 
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "name": name,
-    "creationDate": creationDate.toIso8601String(),
+    "email": email,
+    "phone": phone,
+    "summary": summary,
+    "education": education,
+    "experience": experience,
+    "creationDate": creationDate!.toIso8601String(),
   };
 
 
-  static List<ReviewModel> getListFromJson(List<dynamic> list) {
-    List<ReviewModel> unitList = [];
+  static List<ResumeModel> getListFromJson(List<dynamic> list) {
+    List<ResumeModel> unitList = [];
     for (var unit in list) {
       if (unit is String) {
       } else {
-        unitList.add(ReviewModel.fromJson(unit));
+        unitList.add(ResumeModel.fromJson(unit));
       }
     }
     return unitList;
