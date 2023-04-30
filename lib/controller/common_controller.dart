@@ -22,7 +22,7 @@ class CommonController extends GetxController {
 
   getResumeList() async {
     try {
-      isDataProcessing.value=true;
+      // isDataProcessing.value=true;
       final data=await db.select(db.resumes).get();
       if (data.isNotEmpty) {
         print(data.toList());
@@ -54,6 +54,8 @@ class CommonController extends GetxController {
         education: item.education,
       ));
 
+      print("++++++++++++++++"+id.toString());
+
       isDataProcessing.value=false;
 
     }catch(e){
@@ -77,10 +79,12 @@ class CommonController extends GetxController {
   }
   deleteResume(ResumeModel item) async {
     try {
-      isDataProcessing.value=true;
+      // isDataProcessing.value=true;
       await (db.delete(db.resumes)..where((t) => t.id.equals(item.id))).go();
 
-      isDataProcessing.value=false;
+      // isDataProcessing.value=false;
+
+      Get.back();
     }catch(e){
       debugPrint("Error=>$e");
     }

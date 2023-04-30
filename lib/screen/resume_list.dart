@@ -60,7 +60,6 @@ class _ResumeListState extends State<ResumeList> {
                                         onPress:() {
                                           commonController.deleteResume(item);
 
-                                          Get.back();
                                         },
                                       );
                                     }
