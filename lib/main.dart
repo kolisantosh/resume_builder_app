@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:resume_builder_app/screen/resume_form.dart';
+import 'package:resume_builder_app/screen/resume_list.dart';
 
+import 'controller/network_binding.dart';
 import 'local/table.dart';
 
 AppDatabase db = AppDatabase();
@@ -13,10 +16,11 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Resume Builder',
-      home: ResumeForm(),
+      initialBinding: NetworkBinding(),
+      home: ResumeList(),
     );
   }
 }
